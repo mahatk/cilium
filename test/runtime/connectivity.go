@@ -59,8 +59,8 @@ var _ = Describe("RuntimeValidatedConnectivityTest", func() {
 	Context("Basic Connectivity test", func() {
 
 		BeforeEach(func() {
-			vm.ContainerCreate(helpers.Client, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.client")
-			vm.ContainerCreate(helpers.Server, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.server")
+			vm.ContainerCreate(helpers.Client, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.client", "")
+			vm.ContainerCreate(helpers.Server, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.server", "")
 			vm.PolicyDelAll()
 			vm.WaitEndpointsReady()
 			err := helpers.WithTimeout(func() bool {
@@ -219,7 +219,7 @@ var _ = Describe("RuntimeValidatedConnectivityTest", func() {
 
 			res = vm.ContainerCreate(
 				name, helpers.NetperfImage,
-				fmt.Sprintf("container:%s", containerID), fmt.Sprintf("-l %s", label))
+				fmt.Sprintf("container:%s", containerID), fmt.Sprintf("-l %s", label), "")
 			res.ExpectSuccess("Container %s cannot be created", name)
 		}
 
@@ -616,12 +616,12 @@ var _ = Describe("RuntimeValidatedConntrackTest", func() {
 		once.Do(initialize)
 
 		// TODO: provide map[string]string instead of one string representing KV pair.
-		vm.ContainerCreate(helpers.Client, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.client")
-		vm.ContainerCreate(helpers.Server, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.server")
-		vm.ContainerCreate(helpers.Httpd1, helpers.HttpdImage, helpers.CiliumDockerNetwork, "-l id.httpd")
-		vm.ContainerCreate(helpers.Httpd2, helpers.HttpdImage, helpers.CiliumDockerNetwork, "-l id.httpd_deny")
-		vm.ContainerCreate(curl1ContainerName, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.curl")
-		vm.ContainerCreate(curl2ContainerName, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.curl2")
+		vm.ContainerCreate(helpers.Client, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.client", "")
+		vm.ContainerCreate(helpers.Server, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.server", "")
+		vm.ContainerCreate(helpers.Httpd1, helpers.HttpdImage, helpers.CiliumDockerNetwork, "-l id.httpd", "")
+		vm.ContainerCreate(helpers.Httpd2, helpers.HttpdImage, helpers.CiliumDockerNetwork, "-l id.httpd_deny", "")
+		vm.ContainerCreate(curl1ContainerName, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.curl", "")
+		vm.ContainerCreate(curl2ContainerName, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.curl2", "")
 
 		vm.PolicyDelAll().ExpectSuccess("cannot delete all policies")
 

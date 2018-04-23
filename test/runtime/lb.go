@@ -71,7 +71,7 @@ var _ = Describe("RuntimeValidatedLB", func() {
 		By("Creating containers for traffic test")
 
 		for k, v := range images {
-			vm.ContainerCreate(k, v, helpers.CiliumDockerNetwork, fmt.Sprintf("-l id.%s", k))
+			vm.ContainerCreate(k, v, helpers.CiliumDockerNetwork, fmt.Sprintf("-l id.%s", k), "")
 		}
 		epStatus := vm.WaitEndpointsReady()
 		Expect(epStatus).Should(BeTrue())

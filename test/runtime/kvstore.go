@@ -41,7 +41,7 @@ var _ = Describe("RuntimeValidatedKVStoreTest", func() {
 		switch option {
 		case helpers.Create:
 			vm.NetworkCreate(helpers.CiliumDockerNetwork, "")
-			vm.ContainerCreate(helpers.Client, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.client")
+			vm.ContainerCreate(helpers.Client, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.client", "")
 		case helpers.Delete:
 			vm.ContainerRm(helpers.Client)
 

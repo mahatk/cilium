@@ -60,7 +60,7 @@ var _ = Describe("RuntimeValidatedCLI", func() {
 			namesLabels := [][]string{{"foo", fooID}, {"bar", "id.bar"}, {"baz", "id.baz"}}
 
 			for _, set := range namesLabels {
-				res := vm.ContainerCreate(set[0], helpers.NetperfImage, helpers.CiliumDockerNetwork, fmt.Sprintf("-l %s", set[1]))
+				res := vm.ContainerCreate(set[0], helpers.NetperfImage, helpers.CiliumDockerNetwork, fmt.Sprintf("-l %s", set[1]), "")
 				defer vm.ContainerRm(set[0])
 				res.ExpectSuccess("Unable to create container: %s", res.CombineOutput())
 			}
@@ -84,7 +84,7 @@ var _ = Describe("RuntimeValidatedCLI", func() {
 			namesLabels := [][]string{{"foo", fooID}, {"bar", "id.bar"}, {"baz", "id.baz"}}
 
 			for _, set := range namesLabels {
-				res := vm.ContainerCreate(set[0], helpers.NetperfImage, helpers.CiliumDockerNetwork, fmt.Sprintf("-l %s", set[1]))
+				res := vm.ContainerCreate(set[0], helpers.NetperfImage, helpers.CiliumDockerNetwork, fmt.Sprintf("-l %s", set[1]), "")
 				defer vm.ContainerRm(set[0])
 				res.ExpectSuccess("Unable to create container: %s", res.CombineOutput())
 			}

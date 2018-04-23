@@ -82,7 +82,7 @@ var _ = Describe("DisabledRuntimeValidatedConntrackTable", func() {
 		switch mode {
 		case helpers.Create:
 			for k, v := range images {
-				res := vm.ContainerCreate(k, v, helpers.CiliumDockerNetwork, fmt.Sprintf("-l id.%s", k))
+				res := vm.ContainerCreate(k, v, helpers.CiliumDockerNetwork, fmt.Sprintf("-l id.%s", k), "")
 				res.ExpectSuccess(fmt.Sprintf("Creating container %q. Error: %s", k, res.CombineOutput().String()))
 			}
 			cmdStr := "docker run -dt --name netcat --net %s -l id.server-4 busybox:1.28.0 sleep 30000s"
@@ -92,7 +92,7 @@ var _ = Describe("DisabledRuntimeValidatedConntrackTable", func() {
 			res := vm.Exec(fmt.Sprintf(cmdStr, vm.GetFullPath(ctCleanUpNC), helpers.CiliumDockerNetwork))
 			res.ExpectSuccess(fmt.Sprintf("Creating container %q. Error: %s", client, res.CombineOutput().String()))
 
-			res = vm.ContainerCreate(client2, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.client")
+			res = vm.ContainerCreate(client2, helpers.NetperfImage, helpers.CiliumDockerNetwork, "-l id.client", "")
 			res.ExpectSuccess(fmt.Sprintf("Creating container %q. Error: %s", client2, res.CombineOutput().String()))
 
 		case helpers.Delete:

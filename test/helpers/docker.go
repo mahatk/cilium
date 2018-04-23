@@ -32,9 +32,10 @@ func (s *SSHMeta) ContainerExec(name string, cmd string, optionalArgs ...string)
 
 // ContainerCreate is a wrapper for `docker run`. It runs an instance of the
 // specified Docker image with the provided network, name, and options.
-func (s *SSHMeta) ContainerCreate(name, image, net, options string) *CmdRes {
+func (s *SSHMeta) ContainerCreate(name, image, net, options string, cmdOnStart string) *CmdRes {
 	cmd := fmt.Sprintf(
-		"docker run -d --name %s --net %s %s %s", name, net, options, image)
+		"docker run -d --name %s --net %s %s %s %s", name, net, options, image, cmdOnStart)
+	log.Debugf("spinning up container with command '%v'", cmd)
 	return s.ExecWithSudo(cmd)
 }
 
@@ -129,7 +130,7 @@ func (s *SSHMeta) SampleContainersActions(mode string, networkName string) {
 	switch mode {
 	case Create:
 		for k, v := range images {
-			s.ContainerCreate(k, v, networkName, fmt.Sprintf("-l id.%s", k))
+			s.ContainerCreate(k, v, networkName, fmt.Sprintf("-l id.%s", k), "")
 		}
 	case Delete:
 		for k := range images {
